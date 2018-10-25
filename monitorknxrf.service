@@ -1,0 +1,15 @@
+[Unit]
+Description=Service to collect KNX RF data and send to openhab2 via the REST API
+Wants=network-online.target
+After=network-online.target
+After=openhab2.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/monknxrf
+WatchdogSec=30
+Restart=on-failure
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target
