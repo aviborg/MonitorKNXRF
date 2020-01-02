@@ -61,3 +61,18 @@ To make the program running as a system service you need to copy the the systemd
 sudo cp monknxrf /usr/bin/.
 sudo cp monitorknxrf.service /usr/lib/systemd/system/.
 ```
+
+When the Raspberry is restarted the program should start automatically. It is possible to manually start/stop and check the status of the program:
+```
+[12:33:15] openhabian@hab:~/MonitorKNXRF$ sudo systemctl start monitorknxrf.service
+[12:33:25] openhabian@hab:~/MonitorKNXRF$ sudo systemctl status monitorknxrf.service
+● monitorknxrf.service - Service to collect KNX RF data and send to openhab2 via the REST API
+   Loaded: loaded (/usr/lib/systemd/system/monitorknxrf.service; enabled)
+   Active: active (running) since Thu 2020-01-02 12:33:25 CET; 2s ago
+ Main PID: 16235 (monknxrf)
+   CGroup: /system.slice/monitorknxrf.service
+           └─16235 /usr/bin/monknxrf
+
+Jan 02 12:33:25 hab systemd[1]: Started Service to collect KNX RF data and send to openhab2 via the REST API.
+Jan 02 12:33:25 hab monknxrf[16235]: MonitorKNXRF started
+```
