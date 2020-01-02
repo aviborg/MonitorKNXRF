@@ -5,7 +5,7 @@
 This program is developed to be used on Raspberry Pi 3 together with a CC1101 radiomodule.
 
 The program will listen to interrupts generated from the CC1101. When an interrupt is recieved the data will be stored to a variable length buffer of class SensorKNXRF.
-Every 15th second the program will request items from OpenHab named RoomThermostatYYYXXX (these have to be created as items in the OpenHab config), YYY is the data type and XXX will be the serial identifier for each unique thermostat. If there is a matching serial identifier in the buffer the OpenHab item will be updated with new values.
+Every 15th second the program will request items from OpenHab with tag RoomThermostat (these have to be created as items in the OpenHab config) With the serial identifier for each unique thermostat. If there is a matching serial identifier in the buffer the OpenHab item will be updated with new values. See example below.
 
 ## Pin layout
 
