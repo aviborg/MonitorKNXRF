@@ -46,7 +46,7 @@ std::string getOpenhabItems(std::string tags) {
 	if(curl) {
 		struct curl_slist *list = NULL;
 		// Read out items with defined tag by calling the REST api
-		tags = "http://localhost:8080/rest/items?tags=" + tags + "&recursive=false&fields=name%2C%20state";
+		tags = "http://localhost:8080/rest/items?tags=" + tags + "&recursive=false&fields=name%2C%20editable"; 
 		curl_easy_setopt(curl, CURLOPT_URL, tags.c_str());
 		list = curl_slist_append(list, "Accept: application/json");		// we're expecting json
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);

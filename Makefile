@@ -1,5 +1,5 @@
 # What to call the final executable
-TARGET = monknxrf.out
+TARGET = monknxrf
 
 OBJS= monitorknxrf.o cc1101.o openhabRESTInterface.o sensorKNXRF.o
 
@@ -11,7 +11,7 @@ CFLAGS = -c -Wall -I/home/openhabian/jsmn -Iinclude/
 LDFLAGS = -L/home/openhabian/jsmn
 
 # We need -lcurl for the curl stuff
-LIBS = -lcurl -ljsmn -lwiringPi
+LIBS = -lcurl -ljsmn -lwiringPi -lsystemd 
 
 # Link the target with all objects and libraries
 $(TARGET) : $(OBJS)

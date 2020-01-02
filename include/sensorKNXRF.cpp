@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+#include <syslog.h>
 #include "sensorKNXRF.h"
 #include "cc1101.h"
 #include "Crc16.h"
@@ -53,7 +54,7 @@ uint8_t saveSensorData(uint8_t* dataBuffer, uint32_t len, SensorKNXRF *&sensorLi
 	currentSensor = sensorList;
 	
 	if(cc1101_debug > 1) {
-		printf("Saving sensor of size %d\r\n", len);
+		syslog(LOG_INFO, "MonitorKNXRF: Saving sensor of size %d\r\n", len);
 	}
 	
 	manchesterDecode(dataBuffer, xBuffer, 6);
@@ -94,12 +95,12 @@ uint8_t saveSensorData(uint8_t* dataBuffer, uint32_t len, SensorKNXRF *&sensorLi
 		while (!updatedData) {
 			if (!currentSensor) {
 				if(cc1101_debug > 1) {
-					printf("Allocating space for: %04X%08X \r\n", serialNoHighWord, serialNoLowWord);
+					syslog(LOG_INFO, "MonitorKNXRF: Allocating space for: %04X%08X \r\n", serialNoHighWord, serialNoLowWord);
 				}
 				try {
 					currentSensor = new SensorKNXRF;
 				} catch (const std::exception& e) {
-					printf("A standard exception was caught, with message %s\r\n" , e.what());
+					syslog(LOG_ERR, "MonitorKNXRF: A standard exception was caught, with message %s\r\n" , e.what());
 					throw;
 				}
 				if (previousSensor) {
@@ -111,7 +112,7 @@ uint8_t saveSensorData(uint8_t* dataBuffer, uint32_t len, SensorKNXRF *&sensorLi
 					sensorList = currentSensor;
 				}
 				if(cc1101_debug > 1) {
-					printf("Added new sensor succesfully: %04X%08X \r\n", serialNoHighWord, serialNoLowWord);
+					syslog(LOG_INFO, "MonitorKNXRF: Added new sensor succesfully: %04X%08X \r\n", serialNoHighWord, serialNoLowWord);
 				}
 			}
 			if (currentSensor->serialNoHighWord == serialNoHighWord && currentSensor->serialNoLowWord == serialNoLowWord) {
@@ -144,7 +145,7 @@ uint8_t saveSensorData(uint8_t* dataBuffer, uint32_t len, SensorKNXRF *&sensorLi
                 currentSensor->lqi = (dataBuffer[CC1101_DATA_LEN+1]&0x7F);
                 updatedData = true;
 				if(cc1101_debug > 1){                                    //debug output messages
-						printf("Updated sensor: %04X%08X \r\n", serialNoHighWord, serialNoLowWord);
+						syslog(LOG_INFO, "MonitorKNXRF: Updated sensor: %04X%08X \r\n", serialNoHighWord, serialNoLowWord);
 				}
 			} else {
 				previousSensor = currentSensor;
@@ -240,7 +241,7 @@ uint8_t manchesterDecode(uint8_t *dataSource, uint8_t *dataDest, int32_t lenSour
 
 		if (lenSource%2 > 0) {
 			if(cc1101_debug > 0){                                   	//debut output
-				printf("Bad length to manchester decode (must be even): %d\r\n", lenSource);
+				syslog(LOG_ERR, "MonitorKNXRF: Bad length to manchester decode (must be even): %d\r\n", lenSource);
 			}
 			lenSource -= 1;  //Skip last byte to make it possible to manchester decode
 		}
@@ -264,7 +265,7 @@ uint8_t manchesterDecode(uint8_t *dataSource, uint8_t *dataDest, int32_t lenSour
 						if (res == 0) lenSource = 0;  //break for loop if more than one violation is found
 						res = 0;
 						if(cc1101_debug > 1){                                    //debug output messages
-							printf("Manchester violation in byte %d, nibble %d \r\n", n, m);
+							syslog(LOG_INFO, "MonitorKNXRF: Manchester violation in byte %d, nibble %d \r\n", n, m);
 						}
 				}			
 			}
@@ -275,7 +276,7 @@ uint8_t manchesterDecode(uint8_t *dataSource, uint8_t *dataDest, int32_t lenSour
 		}
 	} else { 
 		if(cc1101_debug > 0){                                   	//debut output
-			printf("Bad length to manchester decode (must be greater than 1): %d\r\n", lenSource);
+			syslog(LOG_ERR, "MonitorKNXRF: Bad length to manchester decode (must be greater than 1): %d\r\n", lenSource);
 		}
 		res = 0;
 	}
