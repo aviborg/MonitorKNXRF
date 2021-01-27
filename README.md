@@ -48,6 +48,12 @@ grep -in monitorknxrf /var/log/syslog
 ```
 In this case the actual temperature is 22.32 C and the set temperature is 19.5 C.
 
+Sometimes the thermostats send 4094. This is nothing to worry about, it will be filtered before being sent to Openhab
+```
+30963:Jan 27 12:05:41 hab monknxrf: MonitorKNXRF got data from sensor 007402363C0C reading 4094 and 2000.
+30964:Jan 27 12:05:41 hab monknxrf: MonitorKNXRF got data from sensor 0074045CF417 reading 2152 and 4094.
+```
+
 To make this thermostat as an item in Openhab just add it as an Openhab item in a items-file:
 ```
 Number roomThermostatBattery007402363C12 "Kontor battery [%f]" [RoomThermostat]
