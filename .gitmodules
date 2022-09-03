@@ -1,0 +1,9 @@
+[submodule "jsmn"]
+	path = jsmn
+	url = git@github.com:zserge/jsmn.git
+[submodule "curl"]
+	path = curl
+	url = git@github.com:curl/curl.git
+[submodule "WiringPi"]
+	path = WiringPi
+	url = git@github.com:WiringPi/WiringPi.git
