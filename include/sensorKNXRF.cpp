@@ -6,6 +6,8 @@
 #include "cc1101.h"
 #include "Crc16.h"
 
+/* For details on the KNX specification frame format go to knx.org
+See 03_02_05 Communication Medium RF, section 6.1.2 */
 
 extern uint8_t cc1101_debug;
 
