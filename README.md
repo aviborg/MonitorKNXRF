@@ -111,7 +111,7 @@ Number roomThermostatActTemp007402363C12 "Kontor actual temp [%f]" [RoomThermost
 Number roomThermostatSetTemp007402363C12 "Kontor set temp [%f]" [RoomThermostat]
 Number roomThermostatRSSI007402363C12 	 "Kontor rssi [%f]" [RoomThermostat]
 ```
-`monknxrf` will use the Openhab REST api to set values. Tho check that the everything that items are available try this:
+`monknxrf` will use the Openhab REST api to set values. To check that items are available through the REST interface try this:
 ```
 > curl -X GET --header "Accept: application/json" "http://localhost:8080/rest/items" | jq
 % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -144,9 +144,10 @@ To make the program running as a system service you need to copy the the systemd
 ```
 > sudo cp monknxrf /usr/bin/.
 > sudo cp monitorknxrf.service /usr/lib/systemd/system/.
+> sudo systemctl enable monitorknxrf.service
 ```
 
-When the Raspberry is restarted the program should start automatically. It is possible to manually start/stop and check the status of the program:
+When the Raspberry is restarted the service should start automatically. It is possible to manually start/stop and check the status of the program:
 ```
 [12:33:15] openhabian@hab:~/MonitorKNXRF$ sudo systemctl start monitorknxrf.service
 [12:33:25] openhabian@hab:~/MonitorKNXRF$ sudo systemctl status monitorknxrf.service
@@ -170,7 +171,8 @@ To remove any all build artifacts including the `monknxrf` application:
 ## Uninstall 
 If you longer need the program you stop the service and then remove the files from the system directory:
 ```
-> sudo systemctl start monitorknxrf.service
+> sudo systemctl stop monitorknxrf.service
+> sudo systemctl disable monitorknxrf.service
 > sudo rm /usr/bin/monknxrf
 > sudo rm /usr/lib/systemd/system/monitorknxrf.service
 ```
