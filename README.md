@@ -72,6 +72,17 @@ WiringPi is now deprecated. The source code is added as a submodule to this repo
 
 ## Make and install
 
+###
+Clone this repository:
+```
+git clone git@github.com:aviborg/MonitorKNXRF.git
+```
+
+Update the dependencies:
+```
+openhabian@hab3:~/MonitorKNXRF $ git submodule update --init --recursive
+```
+
 ### Compile monknxrf
 Compile the program by running make:
 ```
